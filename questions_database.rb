@@ -34,10 +34,27 @@ class Users
         SQL
         @id = QuestionsDatabase.instance.last_insert_row_id
     end 
+
+    def update 
+        raise '#{self} not in database' unless id 
+        QuestionsDatabase.instance.execute(<<-SQL, @fname, @lname, @id)
+            UPDATE
+                users
+            SET
+                fname = ?, lname = ?
+            WHERE
+                id = ?
+        SQL
+    end 
 end 
 
 class Questions
+
     def initialize(options)
-        @
+        @id = options['id']
+        @title = options['title']
+        @body = options['body']
+        @user_id = options['user_id']
     end 
+
 end 
